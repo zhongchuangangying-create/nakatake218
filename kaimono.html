@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お買い物計算アプリ</title>
+
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      background-color: #fff5e6;
+      padding: 30px 15px;
+    }
+
+    h1 {
+      color: #e68a00;
+    }
+
+    .container {
+      background-color: white;
+      max-width: 450px;
+      margin: 20px auto;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px #cccccc;
+    }
+
+    input {
+      padding: 10px;
+      margin: 5px;
+      font-size: 16px;
+      width: 80%;
+    }
+
+    button {
+      background-color: #e68a00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 8px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .delete {
+      background-color: #e74c3c;
+      padding: 6px 12px;
+    }
+
+    li {
+      margin: 12px 0;
+      text-align: left;
+    }
+
+    #total {
+      font-size: 28px;
+      font-weight: bold;
+      color: #e68a00;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🛒 お買い物計算アプリ</h1>
+
+  <div class="container">
+
+    <h2>商品を追加する</h2>
+
+    <input type="text" id="itemName"
+      placeholder="商品名を入力">
+
+    <input type="number" id="itemPrice"
+      placeholder="金額を入力">
+
+    <br>
+
+    <button onclick="addItem()">商品を追加</button>
+
+    <h2>買い物リスト</h2>
+
+    <ul id="itemList"></ul>
+
+    <hr>
+
+    <h2>合計金額</h2>
+
+    <p id="total">0円</p>
+
+  </div>
+
+  <script>
+
+    // 商品を保存する配列
+    let items = [];
+
+    // 商品を追加する
+    function addItem() {
+
+      const name =
+        document.getElementById("itemName").value;
+
+      const price =
+        Number(document.getElementById("itemPrice").value);
+
+      if (name === "" ||
+          document.getElementById("itemPrice").value === "" ||
+          price < 0) {
+
+        alert("商品名と正しい金額を入力してください！");
+        return;
+      }
+
+      // 商品をリストに追加
+      items.push({
+        name: name,
+        price: price
+      });
+
+      // 入力欄を空にする
+      document.getElementById("itemName").value = "";
+      document.getElementById("itemPrice").value = "";
+
+      // リストと合計を更新
+      showItems();
+    }
+
+    // 商品リストを表示する
+    function showItems() {
+
+      const list =
+        document.getElementById("itemList");
+
+      list.innerHTML = "";
+
+      let total = 0;
+
+      // 商品を一つずつ表示する
+      items.forEach((item, index) => {
+
+        const li = document.createElement("li");
+
+        li.textContent =
+          item.name + "：" + item.price + "円 ";
+
+        // 削除ボタンを作る
+        const button = document.createElement("button");
+
+        button.textContent = "削除";
+        button.className = "delete";
+
+        button.onclick = function() {
+          deleteItem(index);
+        };
+
+        li.appendChild(button);
+
+        list.appendChild(li);
+
+        // 合計金額を計算
+        total += item.price;
+
+      });
+
+      // 合計金額を表示
+      document.getElementById("total").textContent =
+        total.toLocaleString() + "円";
+
+    }
+
+    // 商品を削除する
+    function deleteItem(index) {
+
+      items.splice(index, 1);
+
+      showItems();
+
+    }
+
+  </script>
+
+</body>
+</html>

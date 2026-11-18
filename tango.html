@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>単語帳アプリ</title>
+
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      background-color: #eaf4ff;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      color: #2878c8;
+    }
+
+    .card {
+      background-color: white;
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 400px;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px #cccccc;
+    }
+
+    #word {
+      font-size: 30px;
+      font-weight: bold;
+      color: #2878c8;
+    }
+
+    #meaning {
+      font-size: 22px;
+      margin: 20px;
+      color: #333;
+    }
+
+    button {
+      background-color: #2878c8;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      margin: 8px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #155a9c;
+    }
+
+    input {
+      padding: 10px;
+      margin: 5px;
+      font-size: 16px;
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📖 単語帳アプリ</h1>
+
+  <div class="card">
+    <p id="word">apple</p>
+    <p id="meaning">？？？</p>
+
+    <button onclick="showMeaning()">意味を見る</button>
+    <button onclick="nextWord()">次の単語</button>
+    <button onclick="randomWord()">ランダム出題</button>
+  </div>
+
+  <h2>単語を登録する</h2>
+
+  <input type="text" id="newWord" placeholder="単語を入力">
+  <br>
+  <input type="text" id="newMeaning" placeholder="意味を入力">
+  <br>
+  <button onclick="addWord()">登録する</button>
+
+  <script>
+    // 単語と意味を登録
+    const words = [
+      { word: "apple", meaning: "りんご" },
+      { word: "book", meaning: "本" },
+      { word: "school", meaning: "学校" },
+      { word: "cat", meaning: "猫" },
+      { word: "dog", meaning: "犬" }
+    ];
+
+    let currentIndex = 0;
+
+    // 単語を表示する
+    function showWord() {
+      document.getElementById("word").textContent =
+        words[currentIndex].word;
+
+      document.getElementById("meaning").textContent = "？？？";
+    }
+
+    // 意味を表示する
+    function showMeaning() {
+      document.getElementById("meaning").textContent =
+        words[currentIndex].meaning;
+    }
+
+    // 次の単語に切り替える
+    function nextWord() {
+      currentIndex++;
+
+      if (currentIndex >= words.length) {
+        currentIndex = 0;
+      }
+
+      showWord();
+    }
+
+    // ランダムに単語を出題する
+    function randomWord() {
+      currentIndex = Math.floor(
+        Math.random() * words.length
+      );
+
+      showWord();
+    }
+
+    // 新しい単語を登録する
+    function addWord() {
+      const word = document.getElementById("newWord").value;
+      const meaning = document.getElementById("newMeaning").value;
+
+      if (word === "" || meaning === "") {
+        alert("単語と意味を入力してください！");
+        return;
+      }
+
+      words.push({
+        word: word,
+        meaning: meaning
+      });
+
+      alert("単語を登録しました！");
+
+      document.getElementById("newWord").value = "";
+      document.getElementById("newMeaning").value = "";
+
+      currentIndex = words.length - 1;
+      showWord();
+    }
+
+    // 最初の単語を表示
+    showWord();
+
+  </script>
+
+</body>
+</html>
